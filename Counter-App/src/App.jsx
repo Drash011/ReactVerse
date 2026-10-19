@@ -89,7 +89,7 @@ function App() {
       <section className="counter-card">
         <div className="background-line line-one" />
         <div className="background-line line-two" />
-        <div className="background-line line-three" />  
+        <div className="background-line line-three" />
 
         <header className="app-header">
           <div className="rocket-icon">
