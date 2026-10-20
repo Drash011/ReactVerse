@@ -1,24 +1,9 @@
-<!-- # React + Vite
+# ⚛️ ReactVerse - Counter App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple and interactive Counter App built using React and Vite.
+This project demonstrates React components, state management,
+event handling, and a fast development workflow.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project. -->
-
-
-# ⚛️ React + Vite
-
-A modern React development setup powered by Vite, featuring fast Hot Module Replacement (HMR) and ESLint for code quality.
 
 <p align="center">
   <img src="https://vite.dev/logo.svg" alt="Vite Logo" width="100" />
@@ -44,11 +29,12 @@ Add a screenshot of your application to the repository and name it `screenshot.p
 
 ## 🚀 Features
 
-- ⚛️ React for building interactive user interfaces
-- ⚡ Vite for fast development and optimized builds
-- 🔥 Hot Module Replacement (HMR)
-- 🧹 ESLint for code quality and consistency
-- 🧩 Support for official React plugins
+- ➕ Increment the counter
+- ➖ Decrement the counter
+- 🔄 Reset the counter to zero
+- ⚛️ Interactive UI built with React
+- ⚡ Fast development using Vite
+- 📱 Responsive user interface
 
 ## 🛠️ Technologies Used
 
@@ -70,13 +56,13 @@ Install [Node.js](https://nodejs.org/) and npm before starting.
 **1. Clone the repository**
 
 ```bash
-git clone YOUR_REPOSITORY_URL
+git clone https://github.com/Drash011/ReactVerse.git
 ```
 
 **2. Navigate to the project folder**
 
 ```bash
-cd YOUR_PROJECT_FOLDER
+cd Counter-App
 ```
 
 **3. Install dependencies**
@@ -147,10 +133,6 @@ your-project/
 ```
 
 *Your actual folder structure may differ.*
-
-## 📄 License
-
-This project is available for learning and development. Add a license file if you intend to distribute it under a specific license.
 
 ---
 

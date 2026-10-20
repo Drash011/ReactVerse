@@ -8,14 +8,12 @@ function App() {
   const [minimum, setMinimum] = useState(0);
   const [maximum, setMaximum] = useState(0);
   const [hasStarted, setHasStarted] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
 
   const increment = () => {
-    if (count >= 25) {
-      toast.warning("Maximum limit reached! You cannot go above 25.", {
+    if (count >= 15) {
+      toast.warning("Maximum limit reached! You cannot go above 15.", {
         toastId: "maximum-limit",
-        position: "top-center",
-        autoClose: 2500,
-        theme: "dark",
       });
       return;
     }
@@ -35,9 +33,6 @@ function App() {
     if (count <= 1 && hasStarted) {
       toast.warning("Minimum limit reached! Count cannot go below 1.", {
         toastId: "minimum-limit",
-        position: "top-center",
-        autoClose: 2500,
-        theme: "dark",
       });
       return;
     }
@@ -45,150 +40,140 @@ function App() {
     if (count <= 0) {
       toast.warning("Click + to start counting!", {
         toastId: "minimum-limit",
-        position: "top-center",
-        autoClose: 2500,
-        theme: "dark",
       });
       return;
     }
 
-    const next = count - 1;
-
-    setCount(next);
-    setMinimum((prev) => Math.min(prev, next));
+    setCount((prev) => prev - 1);
   };
 
-  const reset = () => {
-    setCount(0);
-    setMinimum(0);
-    setMaximum(0);
-    setHasStarted(false);
-
-    toast.info("Counter has been reset!", {
-      position: "top-center",
-      autoClose: 1500,
-      theme: "dark",
-    });
+  const deleteProduct = () => {
+    setIsDeleted(true);
+    toast.info("Product removed.");
   };
+
+  if (isDeleted) {
+    return (
+      <main className="cart-page">
+        <ToastContainer position="top-right" limit={1} theme="light" />
+        <section className="empty-cart">
+          <h2>Product removed</h2>
+          <p>Your Counter App product is no longer displayed.</p>
+          <button
+            type="button"
+            className="restore-button"
+            onClick={() => setIsDeleted(false)}
+          >
+            Restore product
+          </button>
+        </section>
+      </main>
+    );
+  }
 
   return (
-    <main className="app-wrapper">
+    <main className="cart-page">
       <ToastContainer
-        position="top-center"
+        position="top-right"
         autoClose={2500}
         limit={1}
         newestOnTop
         closeOnClick
         pauseOnHover
         draggable={false}
-        theme="dark"
-        toastClassName="glass-toast"
-        progressClassName="glass-toast-progress"
+        theme="light"
+        toastClassName="cart-toast"
       />
 
-      <section className="counter-card">
-        <div className="background-line line-one" />
-        <div className="background-line line-two" />
-        <div className="background-line line-three" />
+      <article className="cart-product">
+        <div className="product-image-wrapper">
+          <img
+            className="product-image"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSC_1b6t_q0ayG4fuiA60JAZMuuuwH88arvpNNiArZiVw&s=10"
+            alt="Samsung Galaxy S26 Ultra"
+          />
+        </div>
 
-        <header className="app-header">
-          <div className="rocket-icon">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M14.5 3c2.2-1.5 4.4-1.5 6.5-1.5C21 7 19.5 10 17 12.5l-4 4-5-5 4-4C12.8 5.8 13.6 4.2 14.5 3ZM16 8a2 2 0 1 0 4 0 2 2 0 0 0-4 0ZM7 12l5 5-3 4-2-3-3-2 3-4Z" />
-            </svg>
-          </div>
+        <section className="product-info">
+          <h1>Samsung Galaxy S26 Ultra</h1>
 
-          <h1>
-            Counter <span>App</span>
-          </h1>
+          <p className="product-description">
+            Premium Samsung smartphone with an immersive display, advanced
+            camera system, and powerful performance.
+          </p>
 
-          <p className="tagline">Count · Track · Achieve</p>
-        </header>
+          <div className="counter-statistics">
+            <div className="stat">
+              <span>Current count:</span>
+              <strong>{count}</strong>
+            </div>
 
-        <section className="counter-display" aria-label="Counter">
-          <div className="counter-inner">
-            <span className="count-number" aria-live="polite">
-              {count}
-            </span>
+            <div className="stat">
+              <span>Minimum:</span>
+              <strong>{minimum}</strong>
+            </div>
+
+            <div className="stat">
+              <span>Maximum:</span>
+              <strong>{maximum}</strong>
+            </div>
           </div>
         </section>
 
-        <div className="controls">
-          <button
-            type="button"
-            className="control-button minus-button"
-            onClick={decrement}
-            aria-label="Decrease count"
-          >
-            −
-          </button>
+        <aside className="product-summary">
+          <div className="product-price">₹1,29,999</div>
+          <p className="stock-status">
+            <span className="stock-dot" />
+            In Stock
+          </p>
+
+          <div className="counter-controls" aria-label="Counter controls">
+            <button
+              type="button"
+              onClick={decrement}
+              aria-label="Decrease count"
+            >
+              −
+            </button>
+
+            <span className="counter-value" aria-live="polite">
+              {count}
+            </span>
+
+            <button
+              type="button"
+              onClick={increment}
+              aria-label="Increase count"
+            >
+              +
+            </button>
+          </div>
 
           <button
             type="button"
-            className="control-button reset-button"
-            onClick={reset}
-            aria-label="Reset counter"
+            className="delete-button"
+            onClick={deleteProduct}
           >
             <svg
               viewBox="0 0 24 24"
+              width="23"
+              height="23"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2.2"
+              strokeWidth="1.8"
               strokeLinecap="round"
               strokeLinejoin="round"
+              aria-hidden="true"
             >
-              <path d="M3 11a9 9 0 1 1 2.6 6.4" />
-              <path d="M3 4v7h7" />
+              <path d="M3 6h18" />
+              <path d="M8 6V4h8v2" />
+              <path d="m19 6-1 14H6L5 6" />
+              <path d="M10 10v6M14 10v6" />
             </svg>
+            <span>Delete</span>
           </button>
-
-          <button
-            type="button"
-            className="control-button plus-button"
-            onClick={increment}
-            aria-label="Increase count"
-          >
-            +
-          </button>
-        </div>
-
-        <section className="stats-panel" aria-label="Counter statistics">
-          <div className="stat-item">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <rect x="3" y="13" width="4" height="8" rx="1" />
-              <rect x="10" y="8" width="4" height="13" rx="1" />
-              <rect x="17" y="3" width="4" height="18" rx="1" />
-            </svg>
-            <strong>{minimum}</strong>
-            <span>Minimum</span>
-          </div>
-
-          <div className="stat-item">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="m12 2 3.1 6.3 7 1-5.05 4.92 1.2 6.95L12 17.9l-6.25 3.27 1.2-6.95L1.9 9.3l7-1L12 2Z" />
-            </svg>
-            <strong>{count}</strong>
-            <span>Current</span>
-          </div>
-
-          <div className="stat-item">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M7 3H2l2 11h6L7 3Zm10 0 2 11h-6l2-11h2ZM8 14h8l-2 4h-4l-2-4Zm2 5h4v3h-4v-3Z" />
-            </svg>
-            <strong>{maximum}</strong>
-            <span>Maximum</span>
-          </div>
-        </section>
-
-        <footer className="card-footer">
-          <span className="status-dot" />
-          COUNTER SYSTEM ONLINE
-        </footer>
-
-        <div className="background-line line-one1" />
-        <div className="background-line line-two1" />
-        <div className="background-line line-three1" />
-      </section>
+        </aside>
+      </article>
     </main>
   );
 }
