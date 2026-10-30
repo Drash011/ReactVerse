@@ -3,7 +3,7 @@
   <img
     src="https://capsule-render.vercel.app/api?type=waving&color=0:0F172A,50:312E81,100:7C3AED&height=200&section=header&text=Theme%20Change%20App&fontSize=42&fontColor=FFFFFF&fontAlignY=38&animation=fadeIn"
     width="100%"
-    alt="Theme Change App Header"
+    alt="Theme Change App"
   />
 </p>
 
