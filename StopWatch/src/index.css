@@ -1,0 +1,778 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.stopwatch-app {
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    padding: 35px;
+    transition: all 0.4s ease;
+    isolation: isolate;
+}
+
+.stopwatch-app.light {
+    color: #151044;
+    background: radial-gradient(ellipse at 15% 15%, #f4dfff, transparent 40%), radial-gradient(eliipse at 90% 80%, #c7c7ff, transparent 45%), linear-gradient(135deg, #f8f5ff, #e6e6ff);
+}
+
+.stopwatch-app.dark {
+    color: #f5f3ff;
+    background: radial-gradient(ellipse at 15% 15%, #25205e, transparent 40%), radial-gradient(ellipse at 90% 80%, #30145f, transparent 45%), linear-gradient(135deg, #080e2b, #111638);
+}
+
+.background-wave {
+    position: absolute;
+    z-index: -1;
+    width: 650px;
+    height: 350px;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.25;
+    pointer-events: none;
+}
+
+.wave-one {
+    top: -180px;
+    right: 5%;
+    background: #9c4dff;
+}
+
+.wave-two {
+    top: -200px;
+    right: 30%;
+    background: #536dff;
+}
+
+.stopwatch-container {
+    width: 100%;
+    max-width: 1550px;
+    margin: auto;
+    position: relative;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+    gap: 20px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.brand-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    background: linear-gradient(135deg, #b34bff, #283ee9);
+    box-shadow: 0 10px 30px rgba(111, 52, 255, 0.3);
+}
+
+.brand h1 {
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.brand p {
+    font-size: 16px;
+    margin-top: 5px;
+    opacity: 0.7;
+}
+
+.theme-toggle {
+    width: 115px;
+    height: 55px;
+    border: 1px solid rgba(140, 115, 255, 0.35);
+    border-radius: 40px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(120deg, #a44bff, #3025a8);
+    box-shadow: 0 5px 20px rgba(104, 51, 255, 0.2);
+}
+
+.theme-toggle span {
+    width: 48px;
+    height: 42px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle span.active {
+    background: #ffffff;
+    color: #5525db;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+}
+
+.main-layout {
+    display: grid;
+    grid-template-columns: 1.34fr 1fr;
+    gap: 25px;
+    align-items: stretch;
+}
+
+.timer-panel,
+.activity-panel {
+    border-radius: 32px;
+    padding: 30px;
+    border: 1px solid rgba(139, 116, 255, 0.28);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: all 0.3s ease;
+}
+
+.light .timer-panel,
+.light .activity-panel {
+    background: rgba(255, 255, 255, 0.48);
+    box-shadow: 0 15px 45px rgba(95, 69, 180, 0.1);
+}
+
+.dark .timer-panel,
+.dark .activity-panel {
+    background: rgba(10, 19, 53, 0.62);
+    border-color: rgba(96, 11, 255, 0.225);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+}
+
+.timer-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.timer-circle {
+    width: min(320px, 65vw);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    padding: 8px;
+    background: conic-gradient(from 220deg, #2b55ff, #23caff, #a04cff, #e13cff, #2b55ff);
+    box-shadow: 0 0 20px rgba(69, 104, 255, 0.35), 0 0 45px rgba(164, 76, 255, 0.2);
+    position: relative;
+    animation: circleGlow 4s ease-in-out infinite alternate;
+}
+
+.timer-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.light .timer-inner {
+    background: radial-gradient(circle, #ffffff, #ece7ff);
+}
+
+.dark .timer-inner {
+    background: radial-gradient(circle, #171b50, #090f2d);
+}
+
+.timer-center-icon {
+    width: 75px;
+    height: 75px;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #a34cff, #2843ec);
+    box-shadow: 0 8px 25px rgba(102, 62, 255, 0.3);
+}
+
+.timer-inner h2 {
+    font-size: clamp(30px, 5vw, 55px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    /* font-variant-numeric: tabular-nums; */
+}
+
+.time-labels {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 12px;
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+.timer-status {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 12px;
+    opacity: 0.65;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #8990a8;
+}
+
+.status-dot.running {
+    background: #19c982;
+    box-shadow: 0 0 12px #19c982;
+    animation: statusPluse 1s infinite;
+}
+
+.timer-controls {
+    width: 100%;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin: 30px 0 38px;
+}
+
+.control-btn {
+    flex: 1;
+    min-width: 170px;
+    min-height: 60px;
+    border: none;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 25px rgba(65, 50, 160, 0.16);
+}
+
+.control-btn:hover:not(:disabled) {
+    transform: translateY(-4px);
+}
+
+.control-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.start-btn {
+    background: linear-gradient(120deg, #a54cff, #2845ef);
+}
+
+.stop-btn {
+    background: linear-gradient(120deg, #ff5b9c, #e51e60);
+}
+
+.reset-btn {
+    color: #3823a1;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.dark .reset-btn {
+    color: #ffffff;
+    background: linear-gradient(120deg, #6254a8, #353b83);
+}
+
+.activity-form {
+    width: 100%;
+}
+
+.activity-form label {
+    display: block;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.activity-input-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.input-wrapper {
+    flex: 1;
+    height: 58px;
+    min-width: 0;
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid rgba(116, 99, 220, 0.35);
+    border-radius: 18px;
+    color: #6553bd;
+    background: rgba(255, 255, 255, 0.65);
+}
+
+.dark .input-wrapper {
+    background: rgba(255, 255, 255, 0.06);
+    color: #a69aff;
+}
+
+.input-wrapper input {
+    width: 100%;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: inherit;
+    font-size: 14px;
+}
+
+.input-wrapper input::placeholder {
+    color: #8582a9;
+}
+
+.add-btn {
+    height: 58px;
+    padding: 0 25px;
+    border: none;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 700;
+    background: linear-gradient(120deg, #bd4bff, #5424d8);
+    box-shadow: 0 8px 20px rgba(115, 55, 220, 0.25);
+    transition: all 0.3s ease;
+}
+
+.add-btn:hover {
+    transform: translateY(-3px);
+}
+
+.form-message {
+    color: #e34b55;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.activity-panel {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.activity-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.activity-heading-icon {
+    width: 62px;
+    height: 62px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #ffffff;
+    background: linear-gradient(135deg, #a64dff, #293ce9);
+    box-shadow: 0 8px 20px rgba(93, 58, 220, 0.2);
+}
+
+.activity-heading-text {
+    min-width: 0;
+}
+
+.activity-heading-text h2 {
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.activity-heading-text p {
+    font-size: 13px;
+    opacity: 0.65;
+    margin-top: 6px;
+}
+
+.activity-count {
+    margin-left: auto;
+    padding: 10px 13px;
+    border-radius: 30px;
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 700;
+    background: rgba(145, 91, 255, 0.13);
+}
+
+
+/* Activity List */
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.activity-card {
+    min-height: 85px;
+    padding: 13px 15px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(130, 113, 220, 0.15);
+    transition: 0.3s ease;
+}
+
+.light .activity-card {
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 5px 15px rgba(80, 60, 160, 0.08);
+}
+
+.dark .activity-card {
+    background: rgba(255, 255, 255, 0.045);
+}
+
+.activity-card:hover {
+    transform: translateX(4px);
+}
+
+.activity-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.icon-0 {
+    color: #722ce5;
+    background: rgba(161, 91, 255, 0.2);
+}
+
+.icon-1 {
+    color: #079c54;
+    background: rgba(30, 205, 115, 0.17);
+}
+
+.icon-2 {
+    color: #1763e8;
+    background: rgba(53, 132, 255, 0.17);
+}
+
+.icon-3 {
+    color: #ed2677;
+    background: rgba(255, 77, 153, 0.17);
+}
+
+.icon-4 {
+    color: #ed781d;
+    background: rgba(255, 166, 70, 0.2);
+}
+
+.icon-5 {
+    color: #049e9e;
+    background: rgba(30, 205, 205, 0.17);
+}
+
+.activity-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.activity-info h3 {
+    font-size: 15px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.activity-info p {
+    font-size: 12px;
+    margin-top: 6px;
+    opacity: 0.65;
+}
+
+.duration {
+    padding: 11px 14px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 800;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.duration-0 {
+    color: #722ce5;
+    background: rgba(161, 91, 255, 0.16);
+}
+
+.duration-1 {
+    color: #079c54;
+    background: rgba(30, 205, 115, 0.16);
+}
+
+.duration-2 {
+    color: #1763e8;
+    background: rgba(53, 132, 255, 0.16);
+}
+
+.duration-3 {
+    color: #ed2677;
+    background: rgba(255, 77, 153, 0.16);
+}
+
+.duration-4 {
+    color: #ed781d;
+    background: rgba(255, 166, 70, 0.18);
+}
+
+.duration-5 {
+    color: #049e9e;
+    background: rgba(30, 205, 205, 0.17);
+}
+
+
+/* Empty State */
+
+.empty-state {
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    opacity: 0.6;
+    gap: 14px;
+}
+
+.empty-state svg {
+    color: #8654e9;
+}
+
+.empty-state h3 {
+    font-size: 20px;
+}
+
+.empty-state p {
+    font-size: 14px;
+    max-width: 250px;
+    line-height: 1.6;
+}
+
+
+/* Footer */
+
+.footer {
+    padding: 25px 0 5px;
+    text-align: center;
+    font-size: 13px;
+    opacity: 0.6;
+}
+
+
+/* Animations */
+
+@keyframes circleGlow {
+    from {
+        filter: brightness(0.95);
+    }
+    to {
+        filter: brightness(1.15);
+    }
+}
+
+@keyframes statusPulse {
+    50% {
+        opacity: 0.4;
+    }
+}
+
+
+/* Responsive */
+
+@media (max-width: 1100px) {
+    .main-layout {
+        grid-template-columns: 1fr;
+    }
+    .timer-circle {
+        width: 390px;
+    }
+    .activity-panel {
+        min-height: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .stopwatch-app {
+        padding: 20px 14px;
+    }
+    .header {
+        align-items: flex-start;
+        margin-bottom: 25px;
+    }
+    .brand {
+        gap: 12px;
+    }
+    .brand-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 15px;
+    }
+    .brand h1 {
+        font-size: 24px;
+    }
+    .brand p {
+        font-size: 11px;
+    }
+    .theme-toggle {
+        width: 90px;
+        height: 43px;
+    }
+    .theme-toggle span {
+        width: 35px;
+        height: 33px;
+    }
+    .theme-toggle svg {
+        width: 18px;
+    }
+    .timer-panel,
+    .activity-panel {
+        padding: 20px 14px;
+        border-radius: 23px;
+    }
+    .timer-circle {
+        width: min(310px, 80vw);
+    }
+    .timer-center-icon {
+        width: 55px;
+        height: 55px;
+        margin-bottom: 14px;
+    }
+    .timer-center-icon svg {
+        width: 30px;
+    }
+    .timer-inner h2 {
+        font-size: clamp(31px, 9vw, 45px);
+        letter-spacing: -1px;
+    }
+    .time-labels {
+        gap: 17px;
+        font-size: 11px;
+    }
+    .timer-status {
+        margin-top: 15px;
+    }
+    .timer-controls {
+        gap: 8px;
+        margin: 25px 0;
+    }
+    .control-btn {
+        min-height: 48px;
+        gap: 5px;
+        font-size: 12px;
+    }
+    .control-btn svg {
+        width: 16px;
+    }
+    .activity-input-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .input-wrapper {
+        width: 100%;
+        height: 52px;
+    }
+    .add-btn {
+        width: 100%;
+        height: 50px;
+    }
+    .activity-heading-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 14px;
+    }
+    .activity-heading-icon svg {
+        width: 23px;
+    }
+    .activity-heading-text h2 {
+        font-size: 19px;
+    }
+    .activity-heading-text p {
+        font-size: 10px;
+    }
+    .activity-count {
+        font-size: 10px;
+        padding: 8px;
+    }
+    .activity-card {
+        min-height: 72px;
+        padding: 10px;
+        gap: 9px;
+    }
+    .activity-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+    }
+    .activity-icon svg {
+        width: 20px;
+    }
+    .activity-info h3 {
+        font-size: 12px;
+    }
+    .activity-info p {
+        font-size: 10px;
+    }
+    .duration {
+        font-size: 11px;
+        padding: 9px 8px;
+    }
+}
+
+@media (max-width: 370px) {
+    .brand h1 {
+        font-size: 21px;
+    }
+    .brand p {
+        font-size: 10px;
+    }
+    .activity-count {
+        display: none;
+    }
+    .duration {
+        font-size: 10px;
+        padding: 8px 6px;
+    }
+}
