@@ -20,7 +20,7 @@ export default function App() {
 
     const timeInterval = setInterval(() => {
       setTotalSecond((state) => state - 1);
-    }, 1000);
+    }, 100);
 
     return () => clearInterval(timeInterval);
   }, [totalSecond]);
